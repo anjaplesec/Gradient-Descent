@@ -6,7 +6,6 @@
 \usepackage{amsfonts} 
 \usepackage{amsmath}
 
-
 \newcommand{\program}{Finanča matematika} 
 \newcommand{\imeavtorja}{Anja Plesec} % ime avtorja
 \newcommand{\imementorja}{prof.~dr.~ Sergio Cabello Justo, \\ asist. Gašper Domen Romih}
@@ -25,7 +24,7 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 \begin{center}{\large
 \imeavtorja\\[2mm]
 {\bf \naslovdela}\\[10mm]
-Končno poročilo pri predmetu Matematika z računalnikom\\[1cm]
+Kratko poročilo pri predmetu Matematika z računalnikom\\[1cm]
 Mentor: \imementorja}
 \end{center}
 \vfill
@@ -35,6 +34,7 @@ Ljubljana, \letnica}
 \pagebreak
 
 \newpage
+
 
 \section{Gradientni spust}
 Gradientni spust je iterativna metoda za iskanje lokalnega minimuma funkcije. To je algoritem, ki se lahko uporablja na različnih področjih. Cilj pa je imeti algoritem s čim manj iteracij. \\
@@ -61,35 +61,9 @@ Težave, ki se pri tem algoritmu pojavijo, so ustrezna izbira vhodnih podatkov. 
 
 Projekt bom izdelala v programu Matlab.
 
+\section{Plan dela}
+Za lažji začetek projektne naloge sem pregledala teorijo in na spletu poiskala različne načine uporabe te metode. Da bi čim bolje razumela delovanje tega algoritma sem si v Matlabu pogledala enostaven primer uporabe in sicer za linearno regresijo. Generirala sem 20 naključno izbranih točk potem pa sem s pomočjo algoritma poiskala premico, ki se tem točkam najbolje prilega. Na tem primeru sem spreminjala vhodne podatke in opazovala kako se algoritem odziva.\\
 
-\section{Primer uporabe pri linearni regresiji}
-Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela velike korake, ko pa se bliža optimalni vrednosti (minimumu) pa so koraki vedno manjši. To lastnost algoritma lahko potrdita tudi slika 1 in 2. Na prvi sliki torej vidimo, da pet dodatnih iteracij zelo vpliva na premico (razlika med pet in deset iteracij), med tem ko na drugi sliki, kjer gledamo razliko med 95 in 100 iteracij, skoraj ni razlike, saj so koraki, ki jih delamo vedno manjši. \\
-
-\begin{figure}[!htb]
-   \begin{minipage}{0.6\textwidth}
-     \centering
-     \includegraphics[width=1\linewidth]{premica_iter1}
-     \caption{Število iteracij je 5 in 10}\label{Fig:Data1}
-   \end{minipage}\hfill
-   \begin{minipage}{0.6\textwidth}
-     \centering
-     \includegraphics[width=1\linewidth]{premica_iter2}
-     \caption{Število iteracij je 95 in 100}\label{Fig:Data2}
-   \end{minipage}
-\end{figure}
-
-
-Izvedla sem poskus, kjer sem spreminjala začetne pogoje in opazovala koliko iteracij je potrebno, da se premica približa optimalni rešitvi. V primeru a) sem vzela za parametra naklon in konstanta kar vrednost 1. Ko izvedemo 90 iteraij se zadnja iteracija dobro približa začetni rešitvi. Pri primeru b) sem vzela naklon = -20 in konst = 50. Opzimo, da je v tem primeru potrebnih 200 iteracij. Prav toliko jih je potrebnih v c) primeru, kjer sem vzela naklon = -200 in konst = 500. 
-
-
-\begin{figure}
-    \centering
-    \subfigure[naklon = 1, konst = 1]{\includegraphics[width=0.45\textwidth]{premica_zp2.jpg}} 
-    \subfigure[naklon = -20, konst = 50]{\includegraphics[width=0.45\textwidth]{premica_zp1.jpg}} 
-    \subfigure[naklon = -200, konst = 500]{\includegraphics[width=0.45\textwidth]{premica_zp3.jpg}}
-    \caption{Konvergenca pri različnih začetnih pogojih}
-    \label{fig:foobar}
-\end{figure}
 
 
 
