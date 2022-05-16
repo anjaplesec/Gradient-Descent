@@ -8,9 +8,6 @@ for i = 1:length(x)
     vsota_kvadratov_residualov = vsota_kvadratov_residualov + kvadrati_residualov(i);
 end
 
-%graf residualov -> loss function
-
-
 odvod_naklon = matlabFunction(diff(vsota_kvadratov_residualov,naklon));
 odvod_konst = matlabFunction(diff(vsota_kvadratov_residualov,konst));
 
@@ -30,19 +27,26 @@ for i = 1:T-1
     konst(i+1) = konst(i) - step_size_kosnt;
 end
 
-naklon;
-konst;
+naklon
+konst
 
 %RISANJE
 %risanje zacetnih podatkov
-scatter(x,y,'filled','blue')
+scatter(x, y,10, "filled"); 
 grid on
-hold on
-axis equal
 hold on
 
 %narišemo končno premico
 x_koor = linspace(min(x),max(x));
 premica = @(x) naklon(end) .* x + konst(end);
 plot(x_koor,premica(x_koor), 'LineWidth',1 )
+
+
+%risanje naklona in konst
+
+[X,Y] = meshgrid(naklon,konst);
+kvadrati_residualov =(Y-(konst+naklon.*X)).^2;
+figure
+surf(X, Y, kvadrati_residualov)
+
 end

@@ -1,26 +1,26 @@
 format longg
 %zacetni primer za lazje razumevanje samega algoritma
-
-% x_os = -5 + (5+5)*rand(20,1);
-% y_os = (5+5)*rand(20,1);
-
-%shranla podatke, da so vedno isti
-%save('x_y.mat','x_os','y_os')
-
-
+data = load('podatki.txt');
+x = data(:, 1); 
+y = data(:, 2);
+m = length(y); 
+figure; 
+plot(x, y, 'rx', 'MarkerSize', 10); 
+ylabel('Dobicek v €10,000-ih');
+xlabel('Stevilo prebivalcev v 10,000-ih'); 
 
 %Zelim poiskati PREMICO, ki se bo najbolje prilegala tem podatkom (linearna
 %regresija) s pomocjo gradientnega spusta
 
 %zacetni podatki
 
-learning_rate = 0.001;
+learning_rate = 0.0001;
 %izvedem algoritem -> za različno število iteracij
-% for i  = [5 10]
-%     [naklon, konst] = gradient_descent_premica(x_os, y_os,1,0,i,learning_rate);
-%     hold on
-% end
-% legend('','iter = 5','','iter = 10')
+for i  = [5 10]
+    [naklon, konst] = gradient_descent_premica(x, y,0,0,i,learning_rate);
+    hold on
+end
+legend('','iter = 5','','iter = 10')
 % figure
 % for i  = [95 100]
 %     [naklon, konst] = gradient_descent_premica(x_os, y_os,1,0,i,learning_rate);
