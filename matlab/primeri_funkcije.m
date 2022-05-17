@@ -83,15 +83,15 @@
 % Primer sin(x.^2/2-y.^2/4+3)*cos(2*x+1-exp(y))
 %%%%%%%%%%%%%%%%%%
 
-syms x y
-f =  sin(x.^2/2-y.^2/4+3)*cos(2*x+1-exp(y))
-x0 = 0.5;
-y0 = 0.5;
-learning_rate = 0.6;
-T = 100;
-tol = 0.001;
-
-res=gradient_descent_vecspr(f,x0,y0,learning_rate,T,tol);
-
-risanje_vecspr(f,x0,y0,learning_rate,T,tol,-2,3,-4,3)
+% syms x y
+% f =  sin(x.^2/2-y.^2/4+3)*cos(2*x+1-exp(y))
+% x0 = 0.5;
+% y0 = 0.5;
+% learning_rate = 0.6;
+% T = 100;
+% tol = 0.001;
+% 
+% res=gradient_descent_vecspr(f,x0,y0,learning_rate,T,tol);
+% 
+% risanje_vecspr(f,x0,y0,learning_rate,T,tol,-2,3,-4,3)
 

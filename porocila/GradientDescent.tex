@@ -73,7 +73,7 @@ Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela 
     \centering
     \subfigure{\includegraphics[width=0.45\textwidth]{premica_iter1.jpg}}
     \subfigure{\includegraphics[width=0.45\textwidth]{premica_iter2.jpg}} 
-    \caption{Razlike v velikosti koraka}
+    \caption{Razlike v številu iteracij}
     \label{fig:foobar}
 \end{figure}
 
@@ -82,12 +82,23 @@ Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela 
 
 \begin{figure}
     \centering
-    \subfigure[naklon = 1, konst = 1]{\includegraphics[width=0.45\textwidth]{premica_zp2.jpg}} 
+    \subfigure[naklon = 20, konst = -50]{\includegraphics[width=0.45\textwidth]{premica_zp3.jpg}} 
     \subfigure[naklon = -20, konst = 50]{\includegraphics[width=0.45\textwidth]{premica_zp1.jpg}} 
-    \subfigure[naklon = -200, konst = 500]{\includegraphics[width=0.45\textwidth]{premica_zp3.jpg}}
-    \caption{Konvergenca pri različnih začetnih pogojih}
+    \subfigure[naklon = 1, konst = 1]{\includegraphics[width=0.45\textwidth]{premica_zp2.jpg}}
+    \caption{Razlika pri različnih začetnih pogojih}
     \label{fig:foobar}
 \end{figure}
+
+Spodnji graf priakzuje, kako se premica ujema s podaki glede na različno izbero učno stopnje po 100 iteracijah.
+\begin{figure}
+    \centering
+    \subfigure{\includegraphics[width=0.7\textwidth]{premica_lr.jpg}} 
+
+    \caption{Razlika pri različnih učnih stopnjah}
+    \label{fig:foobar}
+\end{figure}
+
+
 
 
 \section{Iskanje minimuma podane funkcije}
@@ -172,7 +183,7 @@ Podobno kot pri iskanju minimuma funkcije ene spremenljivke si lahko za začetek
 %Če je learning rate prevelik lahko algoritem preskoči našo vrednost in ne bo skonvergira \\
 %
 %Gradientni spus je optimizacijska metoda za iskanje minimuma funkcije s pomočjo iterativnega premikanja v smeri negativnega gradienta.\\
-
+% V veliko formulah je tudi deleno z dolžino podatkov, ampak js tega nisem upoštevala in sem zato lahko vzela manjšo učno stopnjo
 
 \begin{thebibliography}{9}
 \bibitem{texbook}
