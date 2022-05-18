@@ -15,6 +15,7 @@ dolz = length(res);
 
 %narišemo graf naše funkcije
 [X,Y] = meshgrid(a:0.05:b,c:0.05:d);
+figure
 Z = matlabFunction(f);
 s = surf(X,Y,Z(X,Y),'FaceAlpha',0.5);
 hold on

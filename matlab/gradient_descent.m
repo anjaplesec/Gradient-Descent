@@ -16,6 +16,9 @@ for i = 1:T
     if abs(raz)<tol
         break
     end
+    if raz == x0
+        error('To ni ustrezna učna stopnja!!')  
+    end
     res(i+1) = res(i) - raz;
 end
 res = res(1:end-1);
@@ -32,5 +35,4 @@ for i = 1:T
         res = res(1:end);
     end
 end
-
 end

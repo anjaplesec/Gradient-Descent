@@ -1,5 +1,5 @@
 function risanje_cost_function(y,x0,learning_rate,T,tol)
-% Funkcija RISANJE_COST_FUNCTION nam izriše graf naše atroškovne funckije
+% Funkcija RISANJE_COST_FUNCTION nam izriše graf naše stroškovne funckije
 % y... funckija ene spremenljivke, katere minimum iščemo
 % x0 ... začetni približek koordinate x
 % learning_rate ... učna stopnja - pove nam velikost koraka
@@ -16,7 +16,7 @@ plot(x_res,res)
 axis equal
 
 %dodajanje legende in naslova
-legend( 'lr = 0.01','lr = 0.1','lr = 0.3','lr = 0.7','lr = 0.9')
+legend('lr = 0.1','lr = 0.3','lr = 0.4')
 title(['Stroskovna funkcija, ', 'tol = ', num2str(tol)])
 
 end

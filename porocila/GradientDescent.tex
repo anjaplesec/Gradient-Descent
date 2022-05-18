@@ -6,6 +6,7 @@
 \usepackage{amsfonts} 
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{listings}
 
 \newcommand{\program}{Finanča matematika} 
 \newcommand{\imeavtorja}{Anja Plesec}
@@ -37,37 +38,59 @@ Ljubljana, \letnica}
 \newpage
 
 
+\section{Uvod}
+V projektni nalogi predstavim metodo gradientnega spusta. Na enostaven način bi lahko to metodo opisala takole: stojimo na vrhu hriba in si želimo priti do doline. Ker hriba ne poznamo se odpravimo po poti navzdol, ki je najbolj strma. Na začetku delamo velike korake, ko pa pot postaja bolj položna začnemo delati manjše korake, saj bomo kmalu prispeli na cilj - v dolino. Na vsakem koraku je naslednji korak odvisen od lokacije, kjer se nahajamo in strmine hriba. Na isti način deluje tudi metoda gradientnega spusta, ki jo bom predstavila skozi nalogo. Projekt sem izdelala v programu Matlab, kjer sem si naprej pogledala uporabo gradientnega spusta v primeru linearne regresije, nato pa na funkcijah ene in več spremenljivk.
 
-\section{Gradientni spust}
-Gradientni spust je iterativna metoda za iskanje lokalnega minimuma funkcije. To je algoritem, ki se lahko uporablja na različnih področjih. Cilj pa je imeti algoritem s čim manj iteracij. \\
-
-Samo delovanje algoritma je sledeče. Najprej si izberemo začetno točko (initial value) - $x_0 \in \mathbb{R}^n $ in hitrost konvergence (learning rate). Zapišemo stroškovno funkcijo (Loss Function) in jo odvajamo po vseh parametrih. Na ta način dobimo gradient stroškovne funkcije. Izbrano začetku točko nato vstavimo v ta gradient in s pomočjo tega poračunamo velikost naslednjega koraka:
-$$ \text{velikost koraka} = \nabla f(x_t) \cdot \text{learning rate} $$
-Vrednost novega parametra pa dobimo s pomočjo spodnje formule:
-$$ x_1 = x_0 - \text{velikost koraka} \in \mathbb{R}^n$$
-Ko izračunamo vrednost $x_1$ postopek ponovimo.\\
-
-\includegraphics[scale=0.6]{grad_des}
+\section{Teoretična izhodišča}
+Gradientni spust je iterativna metoda za iskanje lokalnega minimuma funkcije, ki se lahko uporablja na različnih področjih. Ideja metode je, da najdemo minimum funkcije: 
+\[\min_{x \in \mathbb{R}^n} f(x),\]
+kjer predpostavimo, da je funkcija f konveksna in diferenciabilna v vsaki točki. Naj obstaja optimalna točka $y^*$ in predpostavimo, da obstaja tak $x^*$, da je $f(x^*)=y^*$. \\
 \newline
+\noindent Splošen algoritem:
+\begin{enumerate}
+\item Izberemo začetno točko $x_0 \in \mathbb{R}^n$.
+\item Za $t \ge 0$ predpostavimo, da že poznamo $x_0 , ..., x_t$. Člen $x_{t+1}$ izračunamo kot linearno kombinacijo $x_t$ in $\nabla f(x_t)$ .
+\item Algoritem se konča, ko je dosežen eden izmed kriterijev in vrne rezultat zadnje iteracije.
+\end{enumerate}
+V zgornjem algoritmu $x_t$ predstavlja točko, ki smo jo izračunali v drugem koraku tega algoritma v $n$-ti iteraciji.
+Na tem mestu se pojavi vprašanje zakaj se potem ta algoritem imenuje gradientni spust. To ime je povezano z drugim korakom, torej z izračunom točke $x_{t+1}$. Točke se pomikajo v smeri \textbf{najbolj strmega spusta}. Radi bi izbrali vektor $u$, ki
 
-Splošen algoritem:
-\begin{itemize}
-\item{Izberemo začetno točko $x_0 \in \mathbb{R}^n $. }
-\item{Za $t \geq 0$ predpostavimo, da poznamo $x_0,x_1, \ldots ,x_t $. Naslednji člen določimo s pomočjo enačbe: 
-\[ x_{t+1}=x_t - \eta \cdot \nabla f(x_t), \] 
-kjer $ \eta$ predstavlja learning rate, $\nabla f(x_t) $ pa gradient funkcije $f$ v točki $x_t$.}
-\item{Končamo in vrnemo zadnjo iteracijo.}
-\end{itemize}
+\[\max_{||u||=1} \left [\lim_{\delta \to 0} \frac{f(x)-f(x+\delta u)}{\delta}\right].\]
 
-Težave, ki se pri tem algoritmu pojavijo, so ustrezna izbira vhodnih podatkov. Eden izmed teh je ``learning rate''. Radi bi delali velike korake, kar bi pomenilo manjše število iteracij, vendar se nam lahko zgodi, da s tem zgrešimo našo rešitev in sam algoritem ne vrne prave rešitve. Naslednji izmed vhodnih podatkov je začetna točka $x_0$. Želimo si jo izbrati tako, da je čim bližje optimalni rešitvi, saj bomo zaradi tega potrebovali manj iteracij.\\
+\noindent Izraz znotraj oklepaja je pravzaprav limita negativnega odvoda funkcije f v točki x, kar lahko zapišemo kot:
 
-Projekt bom izdelala v programu Matlab.
+\[\max_{||u||=1} \left (- \frac{\partial f}{\partial u} (x) \right) = \max_{||u||=1} \left (- \langle f(x) , u \rangle \right) .\]
+
+\noindent Minimum je dosežen pri:
+
+\[ u^* : = - \frac{\nabla f(x)}{||\nabla f(x)||}.\]
+
+\noindent Iz tega sledi, da je naravna oz. Eulerjeva diskretizacija sledeča:
+
+\[ x_{t+1} = x_t - \alpha \frac{\nabla f(x)}{||\nabla f(x)||},\]
+kjer je $\alpha > 0$ dolžina koraka - kako daleč od $u^*$ se premaknemo. Faktor $\frac{1}{||\nabla f(x)||}$ lahko izpustimo in dobimo:
+
+\[ x_{t+1} = x_t - \eta {\nabla f(x)},\]
+kjer je $\eta > 0$ parameter, ki se imenuje \textbf{učna stopnja} (ang. learning rate).
+Izpeljano formulo upoštevamo v drugem koraku algoritma in s pomočjo tega poračunamo minimum.
+
+\begin{figure}[h]
+\centering
+\subfigure{\includegraphics[width=0.7\textwidth]{grad_des}}
+\caption{Prikaz delovanja metode gradientnega spusta}
+\label{fig:foobar}
+\end{figure}
 
 
+\noindent Težave, ki se pri tem algoritmu pojavijo, so ustrezna izbira vhodnih podatkov. Eden izmed teh je učna stopnja, saj bi radi delali velike korake, kar bi pomenilo manjše število iteracij, vendar se nam lahko zgodi, da s tem zgrešimo našo rešitev in sam algoritem ne vrne prave rešitve, če pa delamo premajhne korake pa je potrebno veliko število iteracij, da pridemo do rešitve. \\
+Naslednji izmed vhodnih podatkov je začetna točka $x_0$. Želimo si jo izbrati tako, da je čim bližje optimalni rešitvi, saj bomo zaradi tega potrebovali manj iteracij.
+
+
+\newpage
 \section{Primer uporabe pri linearni regresiji}
-Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela velike korake, ko pa se bliža optimalni vrednosti (minimumu) pa so koraki vedno manjši. To lastnost algoritma lahko potrdita tudi slika 1 in 2. Na prvi sliki torej vidimo, da pet dodatnih iteracij zelo vpliva na premico (razlika med pet in deset iteracij), med tem ko na drugi sliki, kjer gledamo razliko med 95 in 100 iteracij, skoraj ni razlike, saj so koraki, ki jih delamo vedno manjši. \\
+Za začetek obravnave algoritem gradientnega spusta sem si pogledala linearno regresijo. Podatki, ki sem jih uporabila so izmišljeni. Opazovala sem predvsem kako se algoritem odziva ob spreminjaju vhodnih podatkov.\\
 
-
+\noindent Vemo, da gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela velike korake, ko pa se bliža optimalni vrednosti (minimumu) pa so koraki vedno manjši. To lastnost algoritma lahko potrdi slika 2. Na prvi sliki torej vidimo, da pet dodatnih iteracij zelo vpliva na premico (razlika med pet in deset iteracij), med tem ko na drugi sliki, kjer gledamo razliko med 95 in 100 iteracij, skoraj ni razlike, saj so koraki, ki jih delamo vedno manjši. \\
 
 \begin{figure}[h]
     \centering
@@ -77,10 +100,8 @@ Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela 
     \label{fig:foobar}
 \end{figure}
 
-
-\noindent Izvedla sem poskus, kjer sem spreminjala začetne pogoje in opazovala koliko iteracij je potrebno, da se premica približa optimalni rešitvi. V primeru a) sem vzela za parametra naklon in konstanta kar vrednost 1. Ko izvedemo 90 iteracij se zadnja iteracija dobro približa začetni rešitvi. Pri primeru b) sem vzela naklon = -20 in konst = 50. Opazimo, da je v tem primeru potrebnih 200 iteracij. Prav toliko jih je potrebnih v c) primeru, kjer sem vzela naklon = -200 in konst = 500. 
-
-\begin{figure}
+\noindent V naslednjem poskusu, sem spreminjala začetne pogoje in opazovala koliko iteracij je potrebno, da se premica približa optimalni rešitvi. V primeru a) sem za naklon vzela 20, za konstanto (začetno vrednost) pa -50. Opazimo, da algoritem potrebuje približno 600 iteracij, da se dobro prilega danim podatkom, med tem ko v naslednjem primeru, kjer je naklon enak -20, konstanta pa 50, potrebuje približno 800 iteracij. Sam vzrok takšne razlike je v napačnem predznaku začetnega naklona. V primeru c) sem vzela za začetni naklon in konstanto kar vrednost 1. Opazimo, da sta blizu optimalnemu naklonu in konstanti, zato se že pri desetih iteracijah premica dobro prilega točkam. V tem primeru je torej dobro pogledat podatke in na podlagi tega določit približen naklon in konstanto, saj bo zaradi tega potrebnih manj iteracij.
+\begin{figure}[!htb]
     \centering
     \subfigure[naklon = 20, konst = -50]{\includegraphics[width=0.45\textwidth]{premica_zp3.jpg}} 
     \subfigure[naklon = -20, konst = 50]{\includegraphics[width=0.45\textwidth]{premica_zp1.jpg}} 
@@ -89,22 +110,24 @@ Gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela 
     \label{fig:foobar}
 \end{figure}
 
-Spodnji graf priakzuje, kako se premica ujema s podaki glede na različno izbero učno stopnje po 100 iteracijah.
-\begin{figure}
-    \centering
-    \subfigure{\includegraphics[width=0.7\textwidth]{premica_lr.jpg}} 
+\newpage
+\noindent Zanimalo me je tudi, kako se sama premica spreminja pri različno izbranih učnih stopnjah. Naredila sem 100 iteracij za vsako učno stopnjo in ugotovila, da manjša je ta stopnja dlje smo od optimalne rešitve po vseh iteracijah. Kar je seveda smiselno, saj manjša kot je učna stopnja, manjše korake delamo in dlje časa potrebujemo, da se približamo optimalni premici.
 
-    \caption{Razlika pri različnih učnih stopnjah}
-    \label{fig:foobar}
+\begin{figure}[!htb]
+\centering
+\subfigure{\includegraphics[width=0.5\textwidth]{premica_lr.jpg}} 
+\caption{Razlika pri različnih učnih stopnjah}
+\label{fig:foobar}
 \end{figure}
 
 
 
-
+\newpage
 \section{Iskanje minimuma podane funkcije}
+V tem poglavju bom predstavila iskanje minimuma funkcije ene in več spremenljivk s pomočjo metode gradientnega spusta. Pogledala sem si enostavne funkcije iz katerih se lepo vidijo prednosti in slabosti te metode.\\
 \subsection{Iskanje minimuma funkcije ene spremenljivke}
 
-Iz spodnjih slik lahko opazimo, da če izberemo preveliko učno stopnjo nam približki skačejo iz ene strani minimuma na drugo stran, med tem ko če izberemo manjšo nam približki ne skačejo. Opazimo, da pri preveliki in premajhni učni stopnji algoritem potrebuje več iteracij. Torej moremo izbrati ravno pravšnjo za našo metodo. Za začetni približek vzamemo $x_0 = 4$
+\noindent Prva težava gradientnega spusta, kot sem že omenila v teoretičnem delu, je izbira učne stopnje. Želimo si izbrati čim večjo, da bo potrebnih čim manj iteracij, ampak se nam lahko zgodi, da bomo minimum preskočili. Pogledala sem si funkcijo $x^2$. Iz spodnjih slik se lepo vidi, kako različne učne stopnje vplivajo na iskanje minimuma in koliko iteracij je potrebnih. Na grafu levo zgoraj, kjer je učna stopnja enaka 0.1, lahko vidimo, da po 42 iteracijah dosežemo neko vrednost dovolj blizu 0. Če za učno stopnjo izberemo 0.3 ali 0.7 potrebujemo 13 iteracij. Opazimo pa tudi da pri učni stopnji 0.7 začnejo vrednosti skakati iz ene strani minimuma na drugo stran, kar je posledica prevelike stopnje. V primeru, ko pa je učna stopnja enaka 0.9 je teh skokov še več in je vrednost dovolj blizu 0 šele pri 52 iteraciji.
 
 \begin{figure}[h]
     \centering
@@ -116,22 +139,41 @@ Iz spodnjih slik lahko opazimo, da če izberemo preveliko učno stopnjo nam prib
     \label{fig:foobar}
 \end{figure}
 
+\noindent Za določitev ustrezne učne stopnje si lahko pomagamo z grafom. V primeru funkcije $x^2 $ sta to vrednosti 0.3 in 0.7, ki se dovolj približata ničli v trinajstih iteracijah. Torej za ustrezno učno stopnjo lahko vzamemo vrednosti med 0.3 in 0.7. Tiste, ki pa niso v tem intervalu bodo potrebovale več iteracij, da bodo dovolj blizu minimuma.  \\
 
-\noindent Sam algoritem ni primeren za funkcije, ki je nekaj časa skoraj konstantna oz je naklon tangente skoraj ničelni. Pri takih funkcijah sam algoritem potrebuje veliko več iteracij, da pride do minimuma. Na spodnjem grafu funkcije $\frac{x^2}{1000}$ vidimo, da je kljub dobro izbrani učni stopnji končna vrednost približka za minimum 0.8066, ker je še vedno daleč stan od samega minimuma naredili pa smo 1000 iteracij.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.5]{str_fun}   
+    \caption{Izravnana funkcija}
+    \label{fig:foobar}
+\end{figure}
+
+
+\noindent Naslednja stvar, ki sem jo opazila je, da sam algoritem ni primeren za funkcije, ki so nekaj časa skoraj konstantna oz. je naklon tangente skoraj ničelni. Pri takih funkcijah sam algoritem potrebuje veliko več iteracij, da pride do minimuma, saj dela majhne korake. Na spodnjem grafu funkcije $\frac{x^2}{1000}$ vidimo, da je kljub dobro izbrani učni stopnji končna vrednost približka po 1000 iteracijah za minimum enaka 0.8066, kar je še vedno daleč stan od samega minimuma.
 
 
 \begin{figure}[h]
-\includegraphics[scale=0.6]{izravnana_fun}   
- \caption{Izravnana funkcija}
-\label{fig:foobar}
+    \centering
+    \includegraphics[scale=0.5]{izravnana_fun}   
+    \caption{Izravnana funkcija}
+    \label{fig:foobar}
 \end{figure}
 
 \newpage
-\noindent Zanimiv primer je naslednja funkcija $x^4-2x^3+2$. Težave algoritmu povzroči sedlo. Lahko vidimo kako izbira začetne točke in učne stopnje vplivata na rešitev algoritma. Seveda v primerih sedelne točke ne moremo trditi, da nam algoritem res vrne globalni minimum.\\
+\noindent Zanimiv primer za obravnavo je naslednja funkcija: $x^4-2x^3+2$. Težave algoritmu povzroči sedlo, torej funkcija ni strogo konveksna. To je lep primer iz katerega so vidne težave algoritma. Vrednost, ki nam jo vrne metoda gradientnega spusta je zelo odvisna od izbire začetne točke in učne stopnje. \\
+
+\noindent V primeru, ko za začetni približek vzamemo $x_0 = 2$, lahko opazimo, da nam pri učni stopnji 0.1 algoritem vrne globalni minimum, pri učni stopnji 0.3 pa lokalni minimum, saj delamo velike korake in s tem preskočimo globalni minimum. Prav tako je zanimiva situacija v primeru, ko za $x_0$ vzamemo vrednost -0.5. V primeru učne stopnje 0.1 algoritem vrne lokalni minimum, v primeru 0.3 globalni minimum, v primeru 0.4 pa obišče tako globalni kot lokalni minimum in potem obstoji v lokalnemu, ne glede na to koliko iteracij naredimo. Iz tega primera se lahko torej naučimo, da pri tem algoritmu nikoli ne vemo ali nam vrne globalni ali lokalni minimum.
+
 \begin{figure}[!htb]
     \centering
     \subfigure{\includegraphics[width=0.45\textwidth]{sedlo1.png}}
     \subfigure{\includegraphics[width=0.45\textwidth]{sedlo2.png}} 
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
     \subfigure{\includegraphics[width=0.45\textwidth]{sedlo3.png}}
     \subfigure{\includegraphics[width=0.45\textwidth]{sedlo4.png}} 
     \subfigure{\includegraphics[width=0.45\textwidth]{sedlo5.png}} 
@@ -139,20 +181,17 @@ Iz spodnjih slik lahko opazimo, da če izberemo preveliko učno stopnjo nam prib
     \label{fig:foobar}
 \end{figure}
 
-\newpage
-%Newton-Raphson metoda se s tem problemom bolje sooča.\\
-\noindent  Na spodnjem grafu lahko vidimo, katera učna stopnja je najboljša za funkcijo $x^2$. Opazim, da sta to vrednosti 0.3 in 0.7, ki se dovolj približata ničli v trinajstih iteracijah. Manjša kot je učna stopnja dlje časa potrebuje da skonvergira, prav tako lahko to opazimo za velike učne stopnje. \\
-
-
+\noindent Tudi če pogledamo graf za lažje določanje ustrezne učne stopnje nam le ta vrne, da pri začetni točki $x_0 = 2$ je najbolj ustrezna učna stopnja 0.4. Ampak iz zgornjih grafov vidimo, da nam le ta ne vrne globalnega minimuma, ampak lokalni minimum.
 \begin{figure}[!htb]
-\includegraphics[scale=0.6]{str_fun}   
- \caption{Izravnana funkcija}
-\label{fig:foobar}
+    \centering
+    \includegraphics[scale=0.4]{str_fun2}   
+    \caption{Izravnana funkcija}
+    \label{fig:foobar}
 \end{figure}
 
 \newpage
 \subsection{Iskanje minimuma funkcije več spremenljivk}
-Podobno kot pri iskanju minimuma funkcije ene spremenljivke si lahko za začetek pogledamo enostaven primer, torej funkcijo $x^2+y^2$. V primeru, ko je učna stopnja enaka 0.8 lahko opazimo, da tako x koordinate kot y koordinate skačejo iz pozitivnih v negativna števila in dosežejo minimum v 19 iteracijah, med tem ko pri učni stopnji 0.1 so vrednosti obeh koordinat pozitivne in lepo padajo k minimumu. V tem primeru pa je potrebnih 31 iteracij.\\
+Podobno kot pri iskanju minimuma funkcije ene spremenljivke si lahko za začetek pogledamo funkcijo $x^2+y^2$. V primeru, ko je učna stopnja enaka 0.8 lahko opazimo, da tako x koordinate kot y koordinate skačejo iz pozitivnih v negativna števila in dosežejo minimum v 19 iteracijah, med tem ko pri učni stopnji 0.1 so vrednosti obeh koordinat pozitivne in lepo padajo k minimumu. V tem primeru pa je potrebnih 31 iteracij.\\
 
 \begin{figure}[h]
     \centering
@@ -163,7 +202,7 @@ Podobno kot pri iskanju minimuma funkcije ene spremenljivke si lahko za začetek
 \end{figure}
 
 
-\noindent Če si pogledamo funkcijo, ki ima sedla in več lokalnih ter globalnih minimumov opazimo podobne stvari, kot v primeru funkcij ene spremenljivke. Samo iskanje minimuma je zelo odvisno od izbire začetnega približka in učne stopnje. Na spodnjih grafih opazimo, da pri različnih učnih stopnjah metoda najde različne minimume. Prav tako je razlika v konvergenci, nekje lepo pada proti minimumu, nekje pa skače iz ene strani minimuma na drugo stran.
+\noindent Če si pogledamo funkcijo, ki ima sedla in več lokalnih minimumov opazimo podobne stvari, kot v primeru funkcij ene spremenljivke. Samo iskanje minimuma je zelo odvisno od izbire začetnega približka in učne stopnje. Na spodnjih grafih opazimo, da pri različnih učnih stopnjah metoda najde različne minimume. Prav tako je razlika v konvergenci, nekje lepo pada proti minimumu, nekje pa skače iz ene strani minimuma na drugo stran.
 
 \begin{figure}[h]
     \centering
@@ -175,16 +214,14 @@ Podobno kot pri iskanju minimuma funkcije ene spremenljivke si lahko za začetek
 
 \newpage
 \section{Zaključek}
-....
-%OPOMBE: \\
-%
-%algoritem je primeren za konveksne funkcije, da ni preveč konstnantna funkcija na nekaterih občmočjih in funkcija ki ne zelo nihajo, kot neke cene delnic. Funkcija mora biti diferenciabilna oz odvedljiva\\
-%manjši kot je learning rate dlje traja da skonvergira... \\
-%Če je learning rate prevelik lahko algoritem preskoči našo vrednost in ne bo skonvergira \\
-%
-%Gradientni spus je optimizacijska metoda za iskanje minimuma funkcije s pomočjo iterativnega premikanja v smeri negativnega gradienta.\\
-% V veliko formulah je tudi deleno z dolžino podatkov, ampak js tega nisem upoštevala in sem zato lahko vzela manjšo učno stopnjo
+Iz grafov in izračunov sem ugotovila, da je sam algoritem najbolj odvisen od učne stopnje in začetnega približka. Od tega je odvisno število iteracij. Sama učna stopnja vpliva tudi na konvergenco/divergenco algoritma ter na hitrost konvergence. Algoritem, kot sem že omenila, je primeren samo za konveksne in diferenciabilne funkcije, saj drgače konvergenca ni zagotovljena, kot smo lahko tudi videli v četrtem poglavju. \\
+To projektno nalogo bi bilo smiselno tudi razširit, saj poznamo različne metode in variacije gradientnega spusta, ki so uporabne. Ena izmed njih, ki sem jo velikokrat zasledila, je gradientni spust z momentom, ki reši težavo, ko se vrednost ujame v lokalni minimum. Enačba je v tem primeru sledeča
+\[ x_{t+1} =\lambda x_t - \eta {\nabla f(x)}.\]
+Smiselno bi bilo tudi pogledati še za različne funkcije, tudi v višjih dimenzijah. Lahko bi tudi trigonometričnim funkcijami poiskali polinome, ki se jim najbolje prilegajo. Mislim, da je možnosti za razširitev zelo veliko.
 
+
+
+\pagebreak
 \begin{thebibliography}{9}
 \bibitem{texbook}
 Nisheeth K. Vishnoi (2020) \emph{Algorithms for Convex Optimization}. Pridobljeno 24. 4. 2022 iz \url{https://convex-optimization.github.io/}.

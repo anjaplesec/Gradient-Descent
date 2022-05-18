@@ -8,13 +8,14 @@ function res = gradient_descent_vecspr(f,x0,y0,learning_rate,T,tol)
 % learning_rate ... učna stopnja - pove nam velikost koraka
 % T ... kdaj se naj algoritem ustavi
 % tol... toleranca
+
 syms x y
 grad = matlabFunction(gradient(f,[x,y])); %izračunamo gradient(odvod) naše funkcije
 res = zeros(T,2);
 res(1,1) = x0;
 res(1,2) = y0;
 for i = 1:T
-    raz = learning_rate .* grad(res(i,1),res(i,2))
+    raz = learning_rate .* grad(res(i,1),res(i,2));
     if abs(raz)<tol
         break
     end
