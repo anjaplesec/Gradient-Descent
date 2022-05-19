@@ -59,7 +59,8 @@ Na tem mestu se pojavi vprašanje zakaj se potem ta algoritem imenuje gradientni
 
 \noindent Izraz znotraj oklepaja je pravzaprav limita negativnega odvoda funkcije f v točki x, kar lahko zapišemo kot:
 
-\[\max_{||u||=1} \left (- \frac{\partial f}{\partial u} (x) \right) = \max_{||u||=1} \left (- \langle f(x) , u \rangle \right) .\]
+\[\max_{||u||=1} \left (- Df(x)[u] \right) = \max_{||u||=1} \left (- \langle f(x) , u \rangle \right),\]
+kjer je D diferencial funkcije f v točki x v smeri u.
 
 \noindent Maksimum je dosežen pri:
 
@@ -90,7 +91,7 @@ Naslednji izmed vhodnih podatkov je začetna točka $x_0$. Želimo si jo izbrati
 \section{Primer uporabe pri linearni regresiji}
 Za začetek obravnave algoritem gradientnega spusta sem si pogledala linearno regresijo. Podatki, ki sem jih uporabila so izmišljeni. Opazovala sem predvsem kako se algoritem odziva ob spreminjaju vhodnih podatkov.\\
 
-\noindent Vemo, da gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela velike korake, ko pa se bliža optimalni vrednosti (minimumu) pa so koraki vedno manjši. To lastnost algoritma lahko potrdi slika 2. Na prvi sliki torej vidimo, da pet dodatnih iteracij zelo vpliva na premico (razlika med pet in deset iteracij), med tem ko na drugi sliki, kjer gledamo razliko med 95 in 100 iteracij, skoraj ni razlike, saj so koraki, ki jih delamo vedno manjši. \\
+\noindent Vemo, da gradientni spust doseže optimalno vrednost tako, da na začetku algoritma dela velike korake, ko pa se bliža optimalni vrednosti (minimumu) pa so koraki vedno manjši. To lastnost algoritma lahko potrdi slika 2. Na prvi sliki torej vidimo, da pet dodatnih iteracij zelo vpliva na premico (razlika med dva in sedem  iteracij), med tem ko na drugi sliki, kjer gledamo razliko med 10 in 15 iteracij, skoraj ni razlike, saj so koraki, ki jih delamo vedno manjši. \\
 
 \begin{figure}[h]
     \centering
